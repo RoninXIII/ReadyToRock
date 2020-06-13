@@ -1,0 +1,70 @@
+//created on: 6 giu 2020
+package readyToRock
+
+//list any import classes here.
+
+import readyToRock.Player
+
+//declare any global variables here
+dialect "mvel" 
+
+
+
+rule "Players' welcome"
+
+    when
+      $p:  Player (color != null)
+    then
+        System.out.println("Player"+' '+$p.color+' '+ "joined the game");
+ 
+end
+
+rule "Choose initial position"
+
+    when
+      $p:  Player ($p.color == color)
+    then
+        System.out.println("Player"+' '+$p.color+' '+ "joined the game");
+ 
+end
+
+
+
+rule "Draw one card"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+
+rule "Skip two turns"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+
+rule "Put a wall"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+
+rule "Gain two extra actions"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
