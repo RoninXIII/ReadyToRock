@@ -10,10 +10,12 @@ package readyToRock;
 public class Player {
 
 	private String color;
-	private int cards;
+	private int cardsNumber;
+	private String[] cards;
 	private int actions = 2;
 	
 	private int distance = 5;
+	private int[][] posBoard;
 	// attributo per indicare le mosse valide
 	// attributo per indicare la posizione all'interno della griglia
 	
@@ -25,12 +27,12 @@ public class Player {
 		this.color = color;
 	}
 
-	public int getCards() {
-		return cards;
+	public int getCardsNumber() {
+		return cardsNumber;
 	}
 
-	public void setCards(int cards) {
-		this.cards = cards;
+	public void setCardsNumber(int cards) {
+		this.cardsNumber = cards;
 	}
 
 	public int getActions() {
@@ -56,6 +58,16 @@ public class Player {
 		return "Player [color=" + color + ", cards=" + cards + ", actions=" + actions + 
 				 ", distance=" + distance + "]";
 	}
+
+	public int[][] getPosBoard() {
+		return posBoard;
+	}
+
+	public void setPosBoard(int[][] posBoard) {
+		this.posBoard = posBoard;
+	}
+
+
 	 
 	
 	
