@@ -37,10 +37,11 @@ public class rockTest extends Application {
  
 	public static void main(String[] args) {
 		
+	
+		Cards mazzo = new Cards();
 		
 		
-				
-		
+		//System.exit(1);
 		wm.addEventListener(new RuleRuntimeEventListener() {
 			
 			@Override
@@ -91,11 +92,11 @@ public class rockTest extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		Stage window;
-		
+		Scene scene1,scene2;
 		window = primaryStage;
 
 		
-		FileInputStream input = new FileInputStream("C:/Users/mario/Desktop/ready/plettro1.png");
+		FileInputStream input = new FileInputStream("C:/Users/mario/Desktop/ready/plettro4.png");
         Image image = new Image(input,80,80,false,false);
         ImageView imageView = new ImageView(image);
 
@@ -106,8 +107,7 @@ public class rockTest extends Application {
         FileInputStream input3 = new FileInputStream("C:/Users/mario/Desktop/ready/plettro3.png");
         Image image3 = new Image(input3,80,80,false,false);
         ImageView imageView3 = new ImageView(image3);
-       
-        
+		
 		
 		 GridPane gridPane = new GridPane();
 		Button[][] buttons = new Button[7][7];
@@ -115,17 +115,20 @@ public class rockTest extends Application {
 		for (int i = 0; i < buttons.length; ++i) {
 			
 			
-            for(int j = 0; j < buttons[i].length; ++j) {
-               
-         
-            		buttons[i][j] = new Button("");
-            		buttons[i][j].setPrefSize(100, 100); 	
-            		
-            	
-            
-            	gridPane.add(buttons[i][j],i,j);
-            }
-        }
+           for(int j = 0; j < buttons[i].length; ++j) {
+              
+        
+           		buttons[i][j] = new Button("");
+           		buttons[i][j].setPrefSize(100, 100); 	
+           		
+           	
+           
+           	gridPane.add(buttons[i][j],i,j);
+           }
+       }
+		
+		gridPane.setAlignment(Pos.CENTER);
+       scene2 = new Scene(gridPane,500,500);
 		
 	
 		buttons[0][3].setStyle("-fx-background-color: #c6a664; ");
@@ -142,22 +145,33 @@ public class rockTest extends Application {
 		buttons[3][6].setGraphic(imageView3);
 		
 	
-		buttons[1][4].setOnAction(e -> {
-			
-		//	buttons[1][4].setGraphic(imageView3);
-			
-		/*	Player player1 = new Player();
-			player1.setColor("Red");
-			wm.insert(player1);*/
-			
-			});
 		
-		gridPane.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(gridPane,500,500);
+		Label  label1 = new Label("Welcome! Choose the color of the plectrum!");
+		Button button1 = new Button("");
+		Button button2 = new Button("");
+		Button button3 = new Button("");
+		
+		button1.setPrefSize(200, 200); 
+		button2.setPrefSize(200, 200); 
+		button3.setPrefSize(200, 200);
+		
+		button1.setGraphic(imageView); 
+		button2.setGraphic(imageView2);
+		button3.setGraphic(imageView3);
+		
+		
+		button1.setOnAction(e -> window.setScene(scene2));
+		button1.setOnAction(e -> window.setScene(scene2));
+		button1.setOnAction(e -> window.setScene(scene2));
+		
+		VBox layout1 = new VBox(20);
+		layout1.getChildren().addAll(label1,button1,button2,button3);
+		scene1 = new Scene(layout1,500,500);
+		
 	
         
         
-    	window.setScene(scene);
+    	window.setScene(scene1);
 		window.setTitle("Thi is the only stage!");
 		window.show();
 		

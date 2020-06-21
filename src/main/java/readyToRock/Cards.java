@@ -3,6 +3,13 @@
  */
 package readyToRock;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 /**
  * @author mario
  *
@@ -10,45 +17,79 @@ package readyToRock;
 public class Cards {
 
 	
-	private int total = 63;
+	private int totalCards ;
 	
-	private class Path{
+	public Map<String,Integer>  pathCards;
+	
+	public Map<String,Integer> flashCards;
+	
+	public Map<String,Integer> wallCards;
+	
+	
+	public Cards() {
+		super();
 		
-		private int total = 30;
-
-		public int getTotal() {
-			return total;
-		}
-
-		public void setTotal(int total) {
-			this.total = total;
-		}
+		
+		
+		pathCards = new HashMap<String,Integer>();
+		this.pathCards.put("Straight", 5);
+		this.pathCards.put("Left/Right", 5);
+		this.pathCards.put("Turn-left", 5);
+		this.pathCards.put("Turn-right", 5);
+		this.pathCards.put("Cross", 5);
+		
+		flashCards = new HashMap<String,Integer>();
+		this.flashCards.put("Ear Plugs", 3);
+		this.flashCards.put("Beer", 4);
+		this.flashCards.put("Lots of beer", 2);
+		this.flashCards.put("Shots on fire", 2);
+		this.flashCards.put("Smashed beer", 3);
+		this.flashCards.put("Body surfing", 4);
+		this.flashCards.put("Ready to rock", 5);
+		
+		wallCards = new HashMap<String,Integer>();
+		this.wallCards.put("Head-bangers", 3);
+		this.wallCards.put("Hell's Angels", 3);
+		this.wallCards.put("Mosh Pit", 2);
+	
+		
+		this.totalCards = sumCards();
+		
 	}
 	
 	
-	private class Flash{
+public int sumCards(){
+	
+	int sum = 0;
+	
+	List<Integer> mergedValues = new ArrayList<Integer>();
+	mergedValues.addAll(this.pathCards.values());
+	mergedValues.addAll(this.flashCards.values());
+	mergedValues.addAll(this.wallCards.values());
+	
+	
+	for ( int values : mergedValues) {
 		
-		private int total = 8;
-
-		public int getTotal() {
-			return total;
-		}
-
-		public void setTotal(int total) {
-			this.total = total;
-		}
+		sum+=values;
 	}
 	
-	private class Wall{
-		
-		private int total = 25;
+	
+	return sum;
+}
+	
+	
 
-		public int getTotal() {
-			return total;
-		}
 
-		public void setTotal(int total) {
-			this.total = total;
-		}
+
+
+
+	
+
+	public int getTotalCards() {
+		return totalCards;
+	}
+
+	public void setTotalCards(int totalCards) {
+		this.totalCards = totalCards;
 	}
 }

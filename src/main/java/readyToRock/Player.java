@@ -17,7 +17,12 @@ public class Player {
 	private int distance = 5;
 	private int[][] posBoard;
 	// attributo per indicare le mosse valide
-	// attributo per indicare la posizione all'interno della griglia
+	
+	
+	
+	
+	
+	
 	
 	public String getColor() {
 		return color;
