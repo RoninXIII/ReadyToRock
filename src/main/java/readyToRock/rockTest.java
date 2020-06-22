@@ -39,9 +39,12 @@ public class rockTest extends Application {
 		
 	
 		Cards mazzo = new Cards();
-		Player player1 = new Player();
+		Player player1 = new Player("Red",mazzo);
+		Player player2 = new Player("Blue",mazzo);
+		Player player3 = new Player("White",mazzo);
+		System.exit(1);
 		
-		//System.exit(1);
+		
 		wm.addEventListener(new RuleRuntimeEventListener() {
 			
 			@Override
