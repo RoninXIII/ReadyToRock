@@ -39,7 +39,7 @@ public class rockTest extends Application {
 		
 	
 		Cards mazzo = new Cards();
-		
+		Player player1 = new Player();
 		
 		//System.exit(1);
 		wm.addEventListener(new RuleRuntimeEventListener() {
@@ -71,12 +71,7 @@ public class rockTest extends Application {
 		
 		
 	
-		/*
-		 * while()
-		 * 
-		 * */
-		
-		
+
 		
 	/*	FactHandle handleOfPlayer1 = wm.insert(player1);
 		FactHandle handleOfPlayer2 = wm.insert(player2);
@@ -107,6 +102,10 @@ public class rockTest extends Application {
         FileInputStream input3 = new FileInputStream("C:/Users/mario/Desktop/ready/plettro3.png");
         Image image3 = new Image(input3,80,80,false,false);
         ImageView imageView3 = new ImageView(image3);
+        
+        FileInputStream input4 = new FileInputStream("C:/Users/mario/Desktop/ready/stage.jpg");
+        Image image4 = new Image(input4,200,100,false,false);
+        ImageView imageView4 = new ImageView(image4);
 		
 		
 		 GridPane gridPane = new GridPane();
@@ -119,26 +118,36 @@ public class rockTest extends Application {
               
         
            		buttons[i][j] = new Button("");
-           		buttons[i][j].setPrefSize(100, 100); 	
-           		
-           	
-           
+           		buttons[i][j].setPrefSize(500, 100);
+           	//	buttons[i][j].setStyle("-fx-background-color: #D3D3D3;");
+           		         
            	gridPane.add(buttons[i][j],i,j);
            }
        }
 		
+		
+		
 		gridPane.setAlignment(Pos.CENTER);
        scene2 = new Scene(gridPane,500,500);
 		
+       int column = 0,row = 3;
+       while (column != 7 && row != 2  ) {
+		
+    	   
+    	   buttons[column][row].setStyle("-fx-background-color: #CD5C5C; ");
+    	   
+    	   column++;
+    	   
+    	   if (column <=3) {
+    		   
+			row++;
+			
+		}else row--;
+    	   
+	}
 	
-		buttons[0][3].setStyle("-fx-background-color: #c6a664; ");
-		buttons[1][4].setStyle("-fx-background-color: #c6a664; ");
-		buttons[2][5].setStyle("-fx-background-color: #c6a664; ");
-		buttons[3][6].setStyle("-fx-background-color: #c6a664; ");
-		buttons[4][5].setStyle("-fx-background-color: #c6a664; ");
-		buttons[5][4].setStyle("-fx-background-color: #c6a664; ");
-		buttons[6][3].setStyle("-fx-background-color: #c6a664; ");
-		buttons[3][0].setStyle("-fx-background-color: #c6a664; ");
+		
+		buttons[3][0].setGraphic(imageView4);
 		
 		buttons[1][4].setGraphic(imageView);
 		buttons[5][4].setGraphic(imageView2);

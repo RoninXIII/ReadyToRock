@@ -19,6 +19,7 @@ public class Cards {
 	
 	private int totalCards ;
 	
+	
 	public Map<String,Integer>  pathCards;
 	
 	public Map<String,Integer> flashCards;
@@ -80,10 +81,50 @@ public int sumCards(){
 	
 
 
-
+	public boolean allocateCards(Player player){
+		
+		String[] cards = {};
+		
+		
+		//player.setCards();
+		
+		return false;
+		
+		
+	}
 
 
 	
+
+	public Map<String, Integer> getPathCards() {
+		return pathCards;
+	}
+
+
+	public void setPathCards(Map<String, Integer> pathCards) {
+		this.pathCards = pathCards;
+	}
+
+
+	public Map<String, Integer> getFlashCards() {
+		return flashCards;
+	}
+
+
+	public void setFlashCards(Map<String, Integer> flashCards) {
+		this.flashCards = flashCards;
+	}
+
+
+	public Map<String, Integer> getWallCards() {
+		return wallCards;
+	}
+
+
+	public void setWallCards(Map<String, Integer> wallCards) {
+		this.wallCards = wallCards;
+	}
+
 
 	public int getTotalCards() {
 		return totalCards;

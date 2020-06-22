@@ -3,6 +3,8 @@
  */
 package readyToRock;
 
+import readyToRock.Cards;
+
 /**
  * @author mario
  *
@@ -10,8 +12,10 @@ package readyToRock;
 public class Player {
 
 	private String color;
-	private int cardsNumber;
+	//private int cardsNumber;
 	private String[] cards;
+	
+	
 	private int actions = 2;
 	
 	private int distance = 5;
@@ -20,6 +24,13 @@ public class Player {
 	
 	
 	
+	
+	public void drawCard(){
+		
+		Cards card = new Cards();
+		
+		
+	}
 	
 	
 	
@@ -32,13 +43,7 @@ public class Player {
 		this.color = color;
 	}
 
-	public int getCardsNumber() {
-		return cardsNumber;
-	}
-
-	public void setCardsNumber(int cards) {
-		this.cardsNumber = cards;
-	}
+	
 
 	public int getActions() {
 		return actions;
@@ -72,7 +77,14 @@ public class Player {
 		this.posBoard = posBoard;
 	}
 
+	
+	public String[] getCards() {
+		return cards;
+	}
 
+	public void setCards(String[] cards) {
+		this.cards = cards;
+	}
 	 
 	
 	
