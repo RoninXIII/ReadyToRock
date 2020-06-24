@@ -4,6 +4,7 @@
 package readyToRock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,12 @@ import java.util.stream.Stream;
  *
  */
 public class Cards {
+
+	@Override
+	public String toString() {
+		return "Cards [totalCards=" + totalCards + ", type=" + Arrays.toString(type) + ", pathCards=" + pathCards
+				+ ", flashCards=" + flashCards + ", wallCards=" + wallCards + "]";
+	}
 
 	private int totalCards;
 

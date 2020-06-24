@@ -4,7 +4,8 @@ package readyToRock
 //list any import classes here.
 
 import readyToRock.Player
-
+import readyToRock.Cards
+import java.util.Arrays
 //declare any global variables here
 dialect "mvel" 
 
@@ -13,12 +14,18 @@ dialect "mvel"
 rule "Players' welcome"
 
     when
-      $p:  Player (color != null)
+      $c:  Cards ()
+      $p:  Player ()
     then
-        System.out.println("Player"+' '+$p.color+' '+ "joined the game");
- 
+    
+        System.out.println("Player"+' '+$p.color+' '+ "will start from cell"+' '+$p.row+' '+$p.column+" with card: "+$p.cards);
+ 		System.out.println($c);
 end
 
+
+
+
+/*
 rule "Choose initial position"
 
     when
@@ -26,7 +33,7 @@ rule "Choose initial position"
     then
         System.out.println("Player"+' '+$p.color+' '+ "joined the game");
  
-end
+end*/
 
 
 

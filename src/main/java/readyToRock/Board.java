@@ -22,13 +22,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Board extends Application  {
+public class Board   {
 
-    private Button[][] buttons = new Button[7][7];
-    private GridPane gridPane = new GridPane();
-
+    public Button[][] buttons;
+    public GridPane gridPane;
+    
     public Board() {
       		
+		buttons = new Button[7][7];
+		gridPane = new GridPane();
 		
 		for (int i = 0; i < buttons.length; ++i) {
 			
@@ -37,20 +39,17 @@ public class Board extends Application  {
             
       
          		buttons[i][j] = new Button("");
-         		buttons[i][j].setPrefSize(100, 100); 	
+         		buttons[i][j].setPrefSize(500, 100); 	
          		
          	
          
          	gridPane.add(buttons[i][j],i,j);
          }
      }
+		gridPane.setAlignment(Pos.CENTER);
     }
 
-	@Override
-	public void start(Stage arg0) throws Exception {
-		
-		
-	}
+
 
 
     

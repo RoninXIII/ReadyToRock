@@ -4,6 +4,8 @@
 package readyToRock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 
 import readyToRock.Cards;
 
@@ -16,18 +18,23 @@ public class Player {
 	private String color;
 	// private int cardsNumber;
 	private ArrayList<String> cards;
-
+	private int row ;
+	private int column;
 	private int actions = 2;
 
 	private int distance = 5;
-	private int[][] posBoard;
+//	private int[] posBoard;
 	// attributo per indicare le mosse valide
 
 	
-	public Player(String color,Cards deck) {
+	public Player(Cards deck) {
 		super();
-		this.color = color;
+		
+		this.color = null;
+		this.row = 0;
+		this.column = 0;
 		this.cards = new ArrayList<String>();
+		
 		
 		for (int i = 0; i < 4; i++) {
 			
@@ -97,17 +104,41 @@ public class Player {
 		this.distance = distance;
 	}
 
+	
+	
+	
 	@Override
 	public String toString() {
-		return "Player [color=" + color + ", cards=" + cards + ", actions=" + actions + ", distance=" + distance + "]";
+		return "Player [color=" + color + ", cards=" + cards + ", actions=" + actions + ", distance=" + distance
+				+ ", row=" +row+", column="+column+ "]";
 	}
 
-	public int[][] getPosBoard() {
-		return posBoard;
+
+
+	
+	public int getRow() {
+		return row;
 	}
 
-	public void setPosBoard(int[][] posBoard) {
-		this.posBoard = posBoard;
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+
+	public int getColumn() {
+		return column;
+	}
+
+
+	public void setColumn(int column) {
+		this.column = column;
+	}
+
+
+	public void setPosition(int row, int column) {
+		this.row = row;
+		this.column = column;
 	}
 
 	public ArrayList<String> getCards() {
