@@ -6,34 +6,28 @@ package readyToRock
 import readyToRock.Player
 import readyToRock.Cards
 import java.util.Arrays
+import javafx.scene.layout.GridPane
+import javafx.scene.control.Button
 //declare any global variables here
 dialect "mvel" 
 
 
 
-rule "Players' welcome"
+
+
+
+/*rule "Go straight"
 
     when
-      $c:  Cards ()
-      $p:  Player ()
+
+      $p:  Player (color != null && actions != 0)
     then
     
-        System.out.println("Player"+' '+$p.color+' '+ "will start from cell"+' '+$p.row+' '+$p.column+" with card: "+$p.cards);
- 		System.out.println($c);
-end
-
-
-
-
-/*
-rule "Choose initial position"
-
-    when
-      $p:  Player ($p.color == color)
-    then
-        System.out.println("Player"+' '+$p.color+' '+ "joined the game");
- 
+    
+        
 end*/
+
+
 
 
 

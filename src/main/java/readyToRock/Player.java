@@ -6,7 +6,8 @@ package readyToRock;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import readyToRock.Cards;
 
 /**
@@ -16,23 +17,21 @@ import readyToRock.Cards;
 public class Player {
 
 	private String color;
-	// private int cardsNumber;
-	private ArrayList<String> cards;
-	private int row ;
-	private int column;
-	private int actions = 2;
 
+	private ArrayList<String> cards;
+
+	private int actions = 2;
+	private Button cell = new Button();
 	private int distance = 5;
-//	private int[] posBoard;
-	// attributo per indicare le mosse valide
 
 	
-	public Player(Cards deck) {
+
+	
+	public Player(Cards deck,String color) {
 		super();
 		
-		this.color = null;
-		this.row = 0;
-		this.column = 0;
+		this.color = color;
+		
 		this.cards = new ArrayList<String>();
 		
 		
@@ -42,6 +41,24 @@ public class Player {
 		}
 		
 		
+		
+	}
+	
+	
+	public void playCard(String playedCard){
+		
+		
+		
+	}
+	
+	
+	public boolean hasWon() {
+		
+		if(this.distance == 0) {
+			
+			return true;
+			
+		}else return false;
 		
 	}
 	
@@ -110,13 +127,13 @@ public class Player {
 	@Override
 	public String toString() {
 		return "Player [color=" + color + ", cards=" + cards + ", actions=" + actions + ", distance=" + distance
-				+ ", row=" +row+", column="+column+ "]";
+				+" position= ["+GridPane.getRowIndex(cell)+" "+GridPane.getColumnIndex(cell)+ "] ]";
 	}
 
 
 
 	
-	public int getRow() {
+/*	public int getRow() {
 		return row;
 	}
 
@@ -139,6 +156,30 @@ public class Player {
 	public void setPosition(int row, int column) {
 		this.row = row;
 		this.column = column;
+	}*/
+	
+	
+	public boolean checkPosition(int row,int column) {
+		
+		if(row == GridPane.getRowIndex(cell) && column == GridPane.getColumnIndex(cell)) {
+			
+			return true;
+			
+		}else return false;
+		
+		
+	}
+	
+	public Button getCell() {
+		return cell;
+	}
+
+
+
+	public void setPosition(Button cell) {
+		
+		this.cell = cell;
+		
 	}
 
 	public ArrayList<String> getCards() {
