@@ -133,19 +133,6 @@ public class Cards {
 		return randomCard;
 	}
 
-	/** Check if there are no more cards of certain card's type */
-	/*
-	 * public boolean isZero(Map<String, Integer> cardType,String card) {
-	 * 
-	 * if (cardType.get(card) == 0 ) {
-	 * 
-	 * return true;
-	 * 
-	 * } else { return false; }
-	 * 
-	 * 
-	 * }
-	 */
 
 	public void removeCardFromDeck(Map<String, Integer> cardType, String card) {
 

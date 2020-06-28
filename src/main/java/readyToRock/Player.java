@@ -5,6 +5,9 @@ package readyToRock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+
+import org.apache.tools.ant.taskdefs.WaitFor;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -20,10 +23,10 @@ public class Player {
 
 	private ArrayList<String> cards;
 
-	private int actions = 2;
+	private int actions ;
 	private Button cell = new Button();
 	private int distance = 5;
-
+	public boolean isTurn = false;
 	
 
 	
@@ -31,7 +34,7 @@ public class Player {
 		super();
 		
 		this.color = color;
-		
+		this.actions = 0;
 		this.cards = new ArrayList<String>();
 		
 		
@@ -43,6 +46,11 @@ public class Player {
 		
 		
 	}
+	
+	
+	
+
+	
 	
 	
 	public void playCard(String playedCard){
@@ -133,30 +141,7 @@ public class Player {
 
 
 	
-/*	public int getRow() {
-		return row;
-	}
-
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-
-	public int getColumn() {
-		return column;
-	}
-
-
-	public void setColumn(int column) {
-		this.column = column;
-	}
-
-
-	public void setPosition(int row, int column) {
-		this.row = row;
-		this.column = column;
-	}*/
+	
 	
 	
 	public boolean checkPosition(int row,int column) {
@@ -170,11 +155,17 @@ public class Player {
 		
 	}
 	
+	
+
+	
 	public Button getCell() {
 		return cell;
 	}
 
-
+	public int[] getPosition() {
+		int[] pos = {GridPane.getRowIndex(cell), GridPane.getColumnIndex(cell)};
+		return pos;
+	}
 
 	public void setPosition(Button cell) {
 		

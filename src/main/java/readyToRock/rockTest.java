@@ -1,6 +1,7 @@
 package readyToRock;
 
 import java.io.FileInputStream;
+import java.util.Arrays;
 
 import org.kie.api.KieServices;
 import org.kie.api.event.rule.ObjectDeletedEvent;
@@ -75,8 +76,8 @@ public class rockTest extends Application {
 		Scene scene1, scene2;
 		window = primaryStage;
 
-		
-		
+
+	
 		
 		scene2 = new Scene(board.gridPane, 500, 500);
 
@@ -84,6 +85,7 @@ public class rockTest extends Application {
 		
 		FactHandle handleOfPlayer1 = wm.insert(player1);
 		FactHandle handleOfCards = wm.insert(deck);
+		FactHandle handleOfBoard = wm.insert(board);
 		FactHandle handleOfPlayer2 = wm.insert(player2);
 
 		FactHandle handleOfPlayer3 = wm.insert(player3);
@@ -98,26 +100,24 @@ public class rockTest extends Application {
 		
 		
 		
-		
-		
-
-	
 		wm.fireAllRules();
 		
+
+		
+		
+		
 		wm.update(handleOfCards, deck);
+		wm.update(handleOfBoard, board);
 		wm.update(handleOfPlayer1, player1);
 		wm.update(handleOfPlayer2, player2);
 		wm.update(handleOfPlayer3, player3);
-		window.setScene(scene2);
 		
+		window.setScene(scene2);
 		
 	
-		/*VBox layout1 = new VBox(20);
-		layout1.getChildren().addAll(label1, button1, button2, button3);
-		scene1 = new Scene(layout1, 500, 500);*/
 
 		window.setScene(scene2);
-		window.setTitle("Thi is the only stage!");
+		window.setTitle("Welcome!");
 		window.show();
 
 	}

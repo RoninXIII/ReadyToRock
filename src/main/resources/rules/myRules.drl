@@ -6,8 +6,12 @@ package readyToRock
 import readyToRock.Player
 import readyToRock.Cards
 import java.util.Arrays
-import javafx.scene.layout.GridPane
 import javafx.scene.control.Button
+import java.util.Random
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 //declare any global variables here
 dialect "mvel" 
 
@@ -16,18 +20,32 @@ dialect "mvel"
 
 
 
-/*rule "Go straight"
+rule "Set initial player position"
 
     when
-
-      $p:  Player (color != null && actions != 0)
+    $b: Board()  
+    $p: Player(color == "Blue" && cell.getId() == null)
+ 
     then
     
-    
+  	 
+	$b.setInitialPosition($p);
+	
         
-end*/
+end
 
+rule "Set initial cpu position"
 
+    when
+    $b: Board()  
+  	$p: Player(color == "Blue" && cell.getId() != null)
+    $p2: Player(color != "Blue" && cell.getId() == null)
+    then
+    
+  
+	$b.setCpuInitialPosition($p,$p2);
+        
+end
 
 
 
