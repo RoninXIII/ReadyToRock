@@ -3,14 +3,20 @@
  */
 package readyToRock;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.apache.tools.ant.taskdefs.WaitFor;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import readyToRock.Cards;
 
 /**
@@ -23,54 +29,84 @@ public class Player {
 
 	private ArrayList<String> cards;
 
-	private int actions ;
+	private int actions = 2;
 	private Button cell = new Button();
 	private int distance = 5;
 	public boolean isTurn = false;
+	public String cardToPlay;
+	private ImageView plectrum = new ImageView();
+	public FactHandle handleOfPlayer;
+	public KieSession workingMemory;
 	
-
-	
-	public Player(Cards deck,String color) {
+	public Player(Cards deck, String color, KieSession wm) {
 		super();
-		
-		this.color = color;
-		this.actions = 0;
-		this.cards = new ArrayList<String>();
-		
-		
-		for (int i = 0; i < 4; i++) {
-			
-			this.drawCard(deck);
-		}
-		
-		
-		
-	}
-	
-	
-	
 
+		this.color = color;
 	
-	
-	
-	public void playCard(String playedCard){
+		this.cards = new ArrayList<String>();
+		this.workingMemory = wm;
 		
-		
-		
+
+		if (color == "Blue") {
+			FileInputStream input;
+			try {
+				input = new FileInputStream("C:/Users/mario/Desktop/ready/plettro4.png");
+				Image image = new Image(input, 80, 80, false, false);
+				ImageView imageView = new ImageView(image);
+				this.plectrum = imageView;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} else if (color == "Red") {
+			FileInputStream input;
+			try {
+				input = new FileInputStream("C:/Users/mario/Desktop/ready/plettro2.png");
+				Image image = new Image(input, 80, 80, false, false);
+				ImageView imageView = new ImageView(image);
+				this.plectrum = imageView;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			FileInputStream input;
+			try {
+				input = new FileInputStream("C:/Users/mario/Desktop/ready/plettro3.png");
+				Image image = new Image(input, 80, 80, false, false);
+				ImageView imageView = new ImageView(image);
+				this.plectrum = imageView;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
-	
-	
+
+	public ImageView getPlectrum() {
+		return plectrum;
+	}
+
+	public void playCard(String playedCard, KieSession wm) {
+
+		this.cardToPlay = playedCard;
+		wm.fireAllRules();
+
+	}
+
 	public boolean hasWon() {
-		
-		if(this.distance == 0) {
-			
+
+		if (this.distance == 0) {
+
 			return true;
-			
-		}else return false;
-		
+
+		} else
+			return false;
+
 	}
-	
-	
+
 	public void drawCard(Cards deck) {
 
 		String randomType = deck.getRandomType();
@@ -100,10 +136,11 @@ public class Player {
 
 			break;
 		}
+		this.cardToPlay ="";
+		this.workingMemory.update(handleOfPlayer, this);
+		this.workingMemory.update(deck.handleOfCards, deck);
 
 	}
-
-
 
 	public String getColor() {
 		return color;
@@ -129,49 +166,54 @@ public class Player {
 		this.distance = distance;
 	}
 
-	
-	
-	
 	@Override
 	public String toString() {
 		return "Player [color=" + color + ", cards=" + cards + ", actions=" + actions + ", distance=" + distance
-				+" position= ["+GridPane.getRowIndex(cell)+" "+GridPane.getColumnIndex(cell)+ "] ]";
+				+ ", isTurn=" + isTurn + ", cardToPlay=" + cardToPlay + ", position= [" + GridPane.getRowIndex(cell) + " " + GridPane.getColumnIndex(cell) + "] ]";
 	}
 
+	public boolean checkPosition(int row, int column) {
 
+		if (row == GridPane.getRowIndex(cell) && column == GridPane.getColumnIndex(cell)) {
 
-	
-	
-	
-	
-	public boolean checkPosition(int row,int column) {
-		
-		if(row == GridPane.getRowIndex(cell) && column == GridPane.getColumnIndex(cell)) {
-			
 			return true;
-			
-		}else return false;
-		
-		
-	}
-	
-	
 
-	
+		} else
+			return false;
+
+	}
+
 	public Button getCell() {
 		return cell;
 	}
 
+	public void setCell(Button cell) {
+		this.cell.setOnAction(null);
+		this.cell.setId(null);
+		this.cell = cell;
+		this.cell.setId(getColor());
+		this.cell.setGraphic(this.getPlectrum());
+		this.workingMemory.update(handleOfPlayer, this);
+	}
+	
+	
+	public Button getNextCell(Board board) {
+
+		int row = GridPane.getRowIndex(this.cell);
+		int column = GridPane.getColumnIndex(this.cell);
+		Button nextCell = board.buttons[column][row - 1];
+		this.cardToPlay ="";
+		return nextCell;
+
+
+	}
+
 	public int[] getPosition() {
-		int[] pos = {GridPane.getRowIndex(cell), GridPane.getColumnIndex(cell)};
+		int[] pos = { GridPane.getRowIndex(cell), GridPane.getColumnIndex(cell) };
 		return pos;
 	}
 
-	public void setPosition(Button cell) {
-		
-		this.cell = cell;
-		
-	}
+	
 
 	public ArrayList<String> getCards() {
 		return cards;

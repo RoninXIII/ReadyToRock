@@ -3,6 +3,8 @@
  */
 package readyToRock;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Stream;
+
+import org.kie.api.runtime.rule.FactHandle;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author mario
@@ -27,16 +34,51 @@ public class Cards {
 	private int totalCards;
 
 	private String[] type = { "Path", "Flash", "Wall" };
-
+	
 	public Map<String, Integer> pathCards;
-
+	
 	public Map<String, Integer> flashCards;
 
 	public Map<String, Integer> wallCards;
+	private ImageView[] images ;
 
+	public FactHandle handleOfCards;
+	 
+	
 	public Cards() {
 		super();
+		
+		images = new ImageView[4];
+		
+		try {
+			FileInputStream	input = new FileInputStream("C:/Users/mario/Desktop/ready/straight.jpg");
+			Image image = new Image(input, 200, 100, false, true);
+			ImageView imageView = new ImageView(image);
+			FileInputStream	input2 = new FileInputStream("C:/Users/mario/Desktop/ready/cross.jpg");
+			Image image2 = new Image(input2, 200, 100, false, true);
+			ImageView imageView2 = new ImageView(image2);
+			FileInputStream	input3 = new FileInputStream("C:/Users/mario/Desktop/ready/turnRight.jpg");
+			Image image3 = new Image(input3, 200, 100, false, true);
+			ImageView imageView3 = new ImageView(image3);
+			FileInputStream	input4 = new FileInputStream("C:/Users/mario/Desktop/ready/leftRight.jpg");
+			Image image4 = new Image(input4, 200, 100, false, true);
+			ImageView imageView4 = new ImageView(image4);
+			
+			imageView.setId("straight");
+			imageView2.setId("cross");
+			imageView3.setId("turnRight");
+			imageView4.setId("leftRight");
+			
+			images[0] = imageView;
+			images[1] = imageView2;
+			images[2] = imageView3;
+			images[3] = imageView4;
+			
+		} catch (FileNotFoundException e) {
 
+			e.printStackTrace();
+		}
+		
 		pathCards = new HashMap<String, Integer>();
 		this.pathCards.put("Straight", 5);
 		this.pathCards.put("Left/Right", 5);
@@ -45,22 +87,32 @@ public class Cards {
 		this.pathCards.put("Cross", 5);
 
 		flashCards = new HashMap<String, Integer>();
-		this.flashCards.put("Ear Plugs", 3);
-		this.flashCards.put("Beer", 4);
-		this.flashCards.put("Lots of beer", 2);
-		this.flashCards.put("Shots on fire", 2);
-		this.flashCards.put("Smashed beer", 3);
-		this.flashCards.put("Body surfing", 4);
-		this.flashCards.put("Ready to rock", 5);
+		this.flashCards.put("Ear Plugs", 3); //Skip two turns
+		this.flashCards.put("Water", 4); // Draw two cards
+		this.flashCards.put("Lot of water", 2); //Draw three cards
+		//this.flashCards.put("Shots on fire", 2);
+		this.flashCards.put("Smashed bottle", 3); //The chosen player draw two cards 
+		this.flashCards.put("Body surfing", 4); // Climb over the wall
+		//this.flashCards.put("Ballad", 5);
 
 		wallCards = new HashMap<String, Integer>();
 		this.wallCards.put("Head-bangers", 3);
 		this.wallCards.put("Hell's Angels", 3);
-		this.wallCards.put("Mosh Pit", 2);
+		//this.wallCards.put("Mosh Pit", 2);
 
 		this.totalCards = sumCards();
 
 	}
+	
+	
+	public ImageView[] getImages() {
+		return images;
+	}
+
+	public void setImages(ImageView[] images) {
+		this.images = images;
+	}
+
 
 	public int sumCards() {
 
@@ -78,8 +130,6 @@ public class Cards {
 
 		return sum;
 	}
-
-	
 
 	public Map<String, Integer> getPathCards() {
 		return pathCards;
@@ -128,11 +178,9 @@ public class Cards {
 
 		Object[] crunchifyKeys = cardType.keySet().toArray();
 		String randomCard = (String) crunchifyKeys[new Random().nextInt(crunchifyKeys.length)];
-		
 
 		return randomCard;
 	}
-
 
 	public void removeCardFromDeck(Map<String, Integer> cardType, String card) {
 
@@ -143,7 +191,7 @@ public class Cards {
 			cardType.remove(card);
 
 		}
-		
+
 		this.totalCards--;
 	}
 

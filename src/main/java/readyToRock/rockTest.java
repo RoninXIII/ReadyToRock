@@ -13,33 +13,32 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 
 import javafx.application.Application;
-
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class rockTest extends Application {
 
 	static KieServices ks = KieServices.Factory.get();
 	static KieContainer kc = ks.getKieClasspathContainer();
 	static KieSession wm = kc.newKieSession("ksession-rules");
-
 	
-
 	Cards deck = new Cards();
-	Player player1 = new Player(deck,"Blue");
-	Player player2 = new Player(deck,"White");
-	Player player3 = new Player(deck,"Red");
+	Player player1 = new Player(deck, "Blue",wm);
 	
+	Player player2 = new Player(deck, "White",wm);
+	Player player3 = new Player(deck, "Red",wm);
+
 	Board board = new Board();
-
-	public static void main(String[] args) {
-
-		
-
 	
+	public static void main(String[] args) {
 
 		wm.addEventListener(new RuleRuntimeEventListener() {
 
@@ -75,48 +74,42 @@ public class rockTest extends Application {
 		Stage window;
 		Scene scene1, scene2;
 		window = primaryStage;
-
-
-	
 		
 		scene2 = new Scene(board.gridPane, 500, 500);
-
+		
 		scene2.getStylesheets().add("readyToRock/stylesheet.css");
+
+		player1.handleOfPlayer = wm.insert(player1);
+		player2.handleOfPlayer = wm.insert(player2);
+		player3.handleOfPlayer = wm.insert(player3);
 		
-		FactHandle handleOfPlayer1 = wm.insert(player1);
-		FactHandle handleOfCards = wm.insert(deck);
+		deck.handleOfCards = wm.insert(deck);
 		FactHandle handleOfBoard = wm.insert(board);
-		FactHandle handleOfPlayer2 = wm.insert(player2);
 
-		FactHandle handleOfPlayer3 = wm.insert(player3);
-
-
-	/*	board.buttons[1][4].setOnAction(e -> {
-    		
-			Object ob = e.getSource();
-			System.out.println(ob.toString());
-			
-		}	);*/
+	//	player1.workingMemory = wm;
 		
-		
+
+		// player1.playCard("straight",wm);
+
+		// board.findCell(player1);
+		/*
+		 * board.buttons[1][4].setOnAction(e -> {
+		 * 
+		 * Object ob = e.getSource(); System.out.println(ob.toString());
+		 * 
+		 * } );
+		 */
 		
 		wm.fireAllRules();
-		
 
-		
-		
-		
-		wm.update(handleOfCards, deck);
+	/*	wm.update(handleOfCards, deck);
 		wm.update(handleOfBoard, board);
 		wm.update(handleOfPlayer1, player1);
 		wm.update(handleOfPlayer2, player2);
-		wm.update(handleOfPlayer3, player3);
-		
-		window.setScene(scene2);
-		
-	
+		wm.update(handleOfPlayer3, player3);*/
 
 		window.setScene(scene2);
+
 		window.setTitle("Welcome!");
 		window.show();
 

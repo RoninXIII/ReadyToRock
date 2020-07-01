@@ -2,22 +2,22 @@ package readyToRock;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Random;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.kie.api.KieServices;
-import org.kie.api.event.rule.ObjectDeletedEvent;
-import org.kie.api.event.rule.ObjectInsertedEvent;
-import org.kie.api.event.rule.ObjectUpdatedEvent;
-import org.kie.api.event.rule.RuleRuntimeEventListener;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.FactHandle;
+
 public class Board {
 
 	public Button[][] buttons;
@@ -36,14 +36,16 @@ public class Board {
 				buttons[i][j].setPrefSize(500, 100);
 
 				gridPane.add(buttons[i][j], i, j);
-		/*		int[] num = { i, j };
-
-				buttons[i][j].setOnAction(e -> {
-
-					System.out.print(GridPane.getRowIndex(buttons[num[0]][num[1]]) + "  "
-							+ GridPane.getColumnIndex(buttons[num[0]][num[1]]));
-
-				});*/
+				/*
+				 * int[] num = { i, j };
+				 * 
+				 * buttons[i][j].setOnAction(e -> {
+				 * 
+				 * System.out.print(GridPane.getRowIndex(buttons[num[0]][num[1]]) + "  " +
+				 * GridPane.getColumnIndex(buttons[num[0]][num[1]]));
+				 * 
+				 * });
+				 */
 			}
 		}
 
@@ -103,73 +105,72 @@ public class Board {
 
 	}
 
-	public void setInitialPosition(Player player1,Player cpu) {
+	public void setPlayerAlert(Player player) {
 
-		try {
+		player.getCell().setOnAction(event -> {
 
-			FileInputStream input = new FileInputStream("C:/Users/mario/Desktop/ready/plettro4.png");
-			Image image = new Image(input, 80, 80, false, false);
-			ImageView imageView = new ImageView(image);
-			for (Button initial : this.initialPlatforms()) {
-				initial.setOnAction(e -> {
-					if (player1.getCell().getId() == null) {
-						player1.setPosition(initial);
-						player1.getCell().setId(player1.getColor());
-						initial.setGraphic(imageView);
-						this.setCpuInitialPosition(cpu);
+			ButtonType[] cards = new ButtonType[player.getCards().size()];
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Alert");
+			alert.setHeaderText("Choose the card to play!");
 
-					}
-				});
+			int i = 0;
+			for (String card : player.getCards()) {
+				cards[i] = new ButtonType(card);
+
+				alert.getButtonTypes().add(cards[i]);
+				i++;
 			}
 
-		} catch (FileNotFoundException e) {
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if(result.get().getText() != "Ok" || result.get().getText() != "Annulla") {
+			
+			player.cardToPlay = result.get().getText();
+			//check if possible to play the card
+			//if possible remove the played card from player's hand
+			player.getCards().remove(player.cardToPlay);
+			player.workingMemory.update(player.handleOfPlayer, player);
+			player.workingMemory.fireAllRules();
+			}
 
-			e.printStackTrace();
+		});
+
+		// alert.setContentText("Choose your option.");
+
+	}
+
+	
+
+	public void setInitialPosition(Player player1) {
+
+		for (Button initial : this.initialPlatforms()) {
+			initial.setOnAction(e -> {
+				if (player1.getCell().getId() == null) {
+					player1.setCell(initial);
+					player1.workingMemory.fireAllRules();
+					this.setPlayerAlert(player1);
+
+				}
+			});
 		}
 
 	}
 
 	public void setCpuInitialPosition(Player cpu) {
 
+		Button[] initialCpu2 = this.initialPlatforms();
+		int rnd = new Random().nextInt(initialCpu2.length);
 
-			
-		
-		FileInputStream input2;
-		try {
-			input2 = new FileInputStream("C:/Users/mario/Desktop/ready/plettro2.png");
+		while (this.isEmpty(initialCpu2[rnd]) == false) {
 
-			Image image2 = new Image(input2, 80, 80, false, false);
-			ImageView imageView2 = new ImageView(image2);
-
-			FileInputStream input3 = new FileInputStream("C:/Users/mario/Desktop/ready/plettro3.png");
-			Image image3 = new Image(input3, 80, 80, false, false);
-			ImageView imageView3 = new ImageView(image3);
-
-			Button[] initialCpu2 = this.initialPlatforms();
-			int rnd = new Random().nextInt(initialCpu2.length);
-
-			while (this.isEmpty(initialCpu2[rnd]) == false) {
-
-				rnd = new Random().nextInt(initialCpu2.length);
-			}
-
-			cpu.setPosition(initialCpu2[rnd]);
-			cpu.getCell().setId(cpu.getColor());
-			if (cpu.getColor() != "Red")
-				initialCpu2[rnd].setGraphic(imageView2);
-			else
-				initialCpu2[rnd].setGraphic(imageView3);
-
-			System.out.println(cpu.getCell().getId());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			rnd = new Random().nextInt(initialCpu2.length);
 		}
-		
-	
+
+		cpu.setCell(initialCpu2[rnd]);
+
+		cpu.workingMemory.update(cpu.handleOfPlayer, cpu);
 
 	}
-
-	
 
 }

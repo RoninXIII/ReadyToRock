@@ -24,12 +24,18 @@ rule "Set initial player position"
 
     when
     $b: Board()  
-    $p: Player(color == "Blue" && cell.getId() == null)
- 
+    $c: Cards()
+    $p: Player(color == "Blue" && cell.getId() == null && $p.cards.size() == 0 )
+   	$p2: Player(color != "Blue" && cell.getId() == null)
     then
     
   	 
 	$b.setInitialPosition($p);
+	
+	for (int i = 0; i < 3; i++) {
+
+			$p.drawCard($c);
+		}
 	
         
 end
@@ -38,38 +44,94 @@ rule "Set initial cpu position"
 
     when
     $b: Board()  
-  	$p: Player(color == "Blue" && cell.getId() != null)
+ 	$c: Cards()
     $p2: Player(color != "Blue" && cell.getId() == null)
     then
     
   
-	$b.setCpuInitialPosition($p,$p2);
+	$b.setCpuInitialPosition($p2);
+	for (int i = 0; i < 3; i++) {
+
+			$p2.drawCard($c);
+		}
         
 end
 
 
 
-rule "Draw one card"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
-end
-
 
 rule "Skip two turns"
     //include attributes such as "salience" here...
     when
-        //conditions
+   $b: Board()
+   $p: Player(cardToPlay == "Ear Plug" && getActions() > 0) 
     then
         //actions
 
 end
 
 
-rule "Put a wall"
+rule "Draw two cards"
+    //include attributes such as "salience" here...
+    when
+        $b: Board()
+        $c: Cards()
+   		$p: Player(cardToPlay == "Water" && getActions() > 0) 
+    then
+    
+    for(int i=0; i<2; i++){
+        $p.drawCard($c);	
+			}
+			$p.setActions($p.getActions()-1);
+end
+
+rule "Draw three cards"
+    //include attributes such as "salience" here...
+    when
+        $b: Board()
+        $c: Cards()
+   		$p: Player(cardToPlay == "Lot of water" && getActions() > 0) 
+    then
+    
+    for(int i=0; i<3; i++){
+        $p.drawCard($c);	
+			}
+			$p.setActions($p.getActions()-1);
+end
+
+rule "Go forward"
+    
+    when
+   $b: Board()
+   $p: Player(cardToPlay == "Straight" && getActions() > 0) 
+    then
+    $p.setCell($p.getNextCell($b));
+    $p.setActions($p.getActions()-1);
+       
+
+end
+
+rule "Go forward-right"
+    //include attributes such as "salience" here...
+    when
+   $b: Board()
+   $p: Player(cardToPlay == "Turn-right" && getActions() > 0)
+    then
+        //actions
+
+end
+
+rule "Go forward-left"
+    //include attributes such as "salience" here...
+    when
+       $b: Board()
+   $p: Player(cardToPlay == "Turn-left" && getActions() > 0)
+    then
+        //actions
+
+end
+
+rule "Go left"
     //include attributes such as "salience" here...
     when
         //conditions
@@ -77,6 +139,17 @@ rule "Put a wall"
         //actions
 
 end
+
+rule "Go right"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+
 
 
 rule "Gain two extra actions"
