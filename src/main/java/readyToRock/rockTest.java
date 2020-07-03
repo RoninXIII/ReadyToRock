@@ -15,14 +15,7 @@ import org.kie.api.runtime.rule.FactHandle;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+
 
 public class rockTest extends Application {
 
@@ -35,6 +28,7 @@ public class rockTest extends Application {
 	
 	//Player player2 = new Player(deck, "White",wm);
 	Player player2 = new Player(deck, "Red",wm);
+	
 
 	Board board = new Board();
 	
@@ -74,7 +68,7 @@ public class rockTest extends Application {
 		Stage window;
 		Scene scene1, scene2;
 		window = primaryStage;
-		
+		player2.isTurn = false;
 		scene2 = new Scene(board.gridPane, 500, 500);
 		
 		scene2.getStylesheets().add("readyToRock/stylesheet.css");

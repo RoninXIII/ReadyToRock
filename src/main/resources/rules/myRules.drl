@@ -30,7 +30,7 @@ rule "Set initial player position"
     then
     
   	 
-	$b.setInitialPosition($p);
+	$b.setInitialPosition($p,$p2);
 	
 	for (int i = 0; i < 3; i++) {
 
@@ -46,11 +46,12 @@ rule "Set initial cpu position"
     when
     $b: Board()  
  	$c: Cards()
+ 	$p: Player(color == "Blue" )
     $p2: Player(color != "Blue" && cell.getId() == null)
     then
     
   
-	$b.setCpuInitialPosition($p2);
+	$b.setCpuInitialPosition($p2,$p);
 	for (int i = 0; i < 3; i++) {
 
 			$p2.drawCard($c);
@@ -66,14 +67,33 @@ rule "Skip one turn"
     when
    $b: Board()
   // $p2: Player(cardToPlay == "")
-   $p: Player(cardToPlay == "Ear Plug" && getActions() > 0) 
+   $p: Player(cardToPlay == "Ear Plugs" && getActions() > 0) 
    $p2:Player(cardToPlay == "")
     then
 	        
 	$p2.setActions(0);
 	$p.getCards().remove($p.cardToPlay);
+	$p.cardToPlay = "";
+	$p.setActions($p.getActions()-1);
+	
 end
 
+rule "Discard two cards"
+    //include attributes such as "salience" here...
+    when
+   $b: Board()
+  
+   $p: Player(cardToPlay == "Smashed bottle" && getActions() > 0) 
+   $p2:Player(cardToPlay == "")
+    then
+	        
+	$p2.getCards().remove(0);
+	$p2.getCards().remove(0);
+	$p.getCards().remove($p.cardToPlay);
+	$p.cardToPlay = "";
+	$p.setActions($p.getActions()-1);
+	
+end
 
 rule "Draw two cards"
     //include attributes such as "salience" here...
@@ -87,6 +107,7 @@ rule "Draw two cards"
         $p.drawCard($c);	
 			}
 			$p.getCards().remove($p.cardToPlay);
+			$p.cardToPlay = "";
 			$p.setActions($p.getActions()-1);
 end
 
@@ -102,6 +123,7 @@ rule "Draw three cards"
         $p.drawCard($c);	
 			}
 			$p.getCards().remove($p.cardToPlay);
+			$p.cardToPlay="";
 			$p.setActions($p.getActions()-1);
 end
 
@@ -109,9 +131,10 @@ rule "Go forward"
     
     when
    $b: Board()
-   $p: Player(cardToPlay == "Straight" && getActions() > 0) 
+   $p: Player(cardToPlay == "Straight" && getActions() > 0)
+   $p2: Player(cardToPlay == "") 
     then
-    $p.setCell($p.getTopCell($b));
+    $p.setCell($p.getTopCell($b),$p2);
     $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
    // $p.getCards().remove($p.cardToPlay);
@@ -125,8 +148,9 @@ rule "Go forward-right"
     when
    $b: Board()
    $p: Player(cardToPlay == "Turn-right" && getActions() > 0)
+    $p2: Player(cardToPlay == "") 
     then
-      $p.setCell($p.getTopCell($b));
+      $p.setCell($p.getTopCell($b),$p2);
       
      $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
@@ -139,8 +163,9 @@ rule "Go forward-left"
     when
        $b: Board()
    $p: Player(cardToPlay == "Turn-left" && getActions() > 0)
+    $p2: Player(cardToPlay == "") 
     then
-        $p.setCell($p.getTopCell($b));
+        $p.setCell($p.getTopCell($b),$p2);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -152,8 +177,9 @@ rule "Go left"
     when
     $b: Board()
    $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] > 3)
+    $p2: Player(cardToPlay == "") 
     then
-         $p.setCell($p.getLeftCell($b));
+         $p.setCell($p.getLeftCell($b),$p2);
      $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -165,8 +191,9 @@ rule "Go right"
     when
    $b: Board()
    $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] < 3 )
+    $p2: Player(cardToPlay == "") 
     then
-         $p.setCell($p.getRightCell($b));
+         $p.setCell($p.getRightCell($b),$p2);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -178,8 +205,9 @@ rule "StraightLR"
     when
    $b: Board()
    $p: Player(cardToPlay == "StraightLR" )
+    $p2: Player(cardToPlay == "") 
     then
-         $p.setCell($p.getTopCell($b));
+         $p.setCell($p.getTopCell($b),$p2);
       $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -191,8 +219,9 @@ rule "Cross1"
     when
    $b: Board()
    $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] < 3   )
+    $p2: Player(cardToPlay == "") 
     then
-         $p.setCell($p.getRightCell($b));
+         $p.setCell($p.getRightCell($b),$p2);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -204,8 +233,9 @@ rule "Cross2"
     when
    $b: Board()
    $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] > 3   )
+    $p2: Player(cardToPlay == "") 
     then
-         $p.setCell($p.getLeftCell($b));
+         $p.setCell($p.getLeftCell($b),$p2);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -217,8 +247,9 @@ rule "Cross3"
     when
    $b: Board()
    $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] == 3   )
+    $p2: Player(cardToPlay == "") 
     then
-         $p.setCell($p.getTopCell($b));
+         $p.setCell($p.getTopCell($b),$p2);
       $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -234,6 +265,7 @@ rule "Set cpu turn"
          
     then
         $p.isTurn = false;
+        $p.cardToPlay="";
         $p2.isTurn = true;
 
 end
@@ -247,6 +279,7 @@ rule "Draw one card"
  
     then
       $p.drawCard($c);
+      $p.cardToPlay= "";
     $p.setActions($p.getActions()-1);
 
 end
@@ -279,3 +312,33 @@ rule "Smashed bottle"
     $p.setActions($p.getActions()-1);
 
 end
+
+
+rule "Cpu turn"
+   
+    when
+   $b: Board()
+   $p: Player(color == "Red" && isTurn == true && getActions() > 0 && cardToPlay == "")
+   
+    then
+	$p.cardToPlay = $p.findCardToPlay();
+	$p.cpuTurn();
+
+end
+
+rule "Finish cpu turn"
+    //include attributes such as "salience" here...
+    when
+   $b: Board()
+   $p: Player(color == "Red" && isTurn == true && getActions() == 0 && cardToPlay == "")
+   $p2 : Player(color =="Blue")
+    then
+    
+	$p.isTurn = false;
+	$p2.isTurn = true;
+	$p2.setActions(2);
+	$p.cpuTurn();
+
+end
+
+

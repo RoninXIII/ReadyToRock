@@ -109,14 +109,14 @@ public class Board {
 
 	
 
-	public void setInitialPosition(Player player1) {
+	public void setInitialPosition(Player player1,Player player2) {
 
 		for (Button initial : this.initialPlatforms()) {
 			initial.setOnAction(e -> {
 				if (player1.getCell().getId() == null) {
-					player1.setCell(initial);
+					player1.setCell(initial,player2);
 					player1.workingMemory.fireAllRules();
-					player1.setPlayerAlert(null);
+					player1.setPlayerAlert(null,player2);
 
 				}
 			});
@@ -124,7 +124,7 @@ public class Board {
 
 	}
 
-	public void setCpuInitialPosition(Player cpu) {
+	public void setCpuInitialPosition(Player cpu,Player player) {
 
 		Button[] initialCpu2 = this.initialPlatforms();
 		int rnd = new Random().nextInt(initialCpu2.length);
@@ -134,7 +134,7 @@ public class Board {
 			rnd = new Random().nextInt(initialCpu2.length);
 		}
 
-		cpu.setCell(initialCpu2[rnd]);
+		cpu.setCell(initialCpu2[rnd],player);
 
 		cpu.workingMemory.update(cpu.handleOfPlayer, cpu);
 

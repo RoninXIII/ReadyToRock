@@ -37,7 +37,7 @@ public class Player {
 	private Button cell = new Button();
 	private int distance = 5;
 	public boolean isTurn = true;
-	public String cardToPlay;
+	public String cardToPlay = "";
 	private ImageView plectrum = new ImageView();
 	public FactHandle handleOfPlayer;
 	public KieSession workingMemory;
@@ -128,7 +128,7 @@ public class Player {
 
 			break;
 		}
-		this.cardToPlay = "";
+		// this.cardToPlay = "";
 		this.workingMemory.update(handleOfPlayer, this);
 		this.workingMemory.update(deck.handleOfCards, deck);
 
@@ -185,7 +185,11 @@ public class Player {
 		return path;
 	}
 
-	public void setPlayerAlert(String playedCard) {
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void setPlayerAlert(String playedCard, Player player2) {
 
 		Cards deck = new Cards();
 
@@ -198,6 +202,7 @@ public class Player {
 			alert.setHeaderText("Choose the card to play!");
 			alert.setContentText(actions + " actions left");
 			if (playedCard != null) {
+				this.path = playedCard;
 				ImageView image = deck.getImages().get(playedCard);
 				alert.setGraphic(image);
 			}
@@ -221,31 +226,31 @@ public class Player {
 
 				this.cardToPlay = result.get().getText();
 
-				if (isValid() == true && actions > 0) {
+				if ((isValid() == true && actions > 0)) {
 					// check if possible to play the card
 					// if possible remove the played card from player's hand
 
 					this.workingMemory.update(this.handleOfPlayer, this);
 					this.workingMemory.fireAllRules();
 					this.workingMemory.update(this.handleOfPlayer, this);
+					this.workingMemory.update(player2.handleOfPlayer, player2);
 
+				} else if (cardToPlay == "Finish your turn") {
+					player2.actions = 2;
+					this.workingMemory.update(this.handleOfPlayer, this);
+					this.workingMemory.fireAllRules();
+					this.workingMemory.update(this.handleOfPlayer, this);
+					this.workingMemory.update(player2.handleOfPlayer, player2);
+					this.workingMemory.fireAllRules();
 				}
 
 			}
 
-			
-
 		});
 
-	
-
 	}
 
-	public void cpuTurn() {
-
-	}
-
-	public void setCell(Button cell) {
+	public void setCell(Button cell, Player player2) {
 		Board board = new Board();
 
 		if (!this.checkLimit(cell, board)) {
@@ -254,7 +259,7 @@ public class Player {
 			this.cell = cell;
 			this.cell.setId(getColor());
 			this.cell.setGraphic(this.getPlectrum());
-			this.setPlayerAlert(cardToPlay);
+			this.setPlayerAlert(cardToPlay, player2);
 			// this.cardToPlay = "";
 			this.workingMemory.update(handleOfPlayer, this);
 		} else {
@@ -285,14 +290,14 @@ public class Player {
 		switch (this.cardToPlay) {
 		case "Straight":
 
-			if (path == "Left/Right" || path == "StraightLR")
+			if (path == "Left/Right")
 				return false;
 			else
 				return true;
 
 		case "Turn-right":
 
-			if (path == "Straight" || path == "Turn-right")
+			if (path == "Turn-right")
 				return false;
 			else
 				return true;
@@ -306,7 +311,7 @@ public class Player {
 
 		case "Turn-left":
 
-			if (path == "Straight" || path == "Turn-left")
+			if (path == "Turn-left")
 				return false;
 			else
 				return true;
@@ -315,6 +320,41 @@ public class Player {
 			return true;
 		}
 
+	}
+
+	public String findCardToPlay() {
+		Cards deck = new Cards();
+		Object[] arr = deck.pathCards.keySet().toArray();
+		Object[] arr2 = deck.flashCards.keySet().toArray();
+		Object[] arr3 = deck.wallCards.keySet().toArray();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			if (cards.contains(arr[i]))
+				return (String) arr[i];
+		}
+
+		for (int i = 0; i < arr2.length; i++) {
+
+			if (cards.contains(arr2[i]))
+				return (String) arr2[i];
+		}
+
+		for (int i = 0; i < arr3.length; i++) {
+
+			if (cards.contains(arr3[i]))
+				return (String) arr3[i];
+		}
+
+		return "";
+
+	}
+
+	public void cpuTurn() {
+
+		this.workingMemory.update(handleOfPlayer, this);
+		this.workingMemory.fireAllRules();
+		this.workingMemory.update(handleOfPlayer, this);
 	}
 
 	public Button getTopCell(Board board) {
