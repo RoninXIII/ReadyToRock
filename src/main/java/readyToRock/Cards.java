@@ -40,7 +40,7 @@ public class Cards {
 	public Map<String, Integer> flashCards;
 
 	public Map<String, Integer> wallCards;
-	private ImageView[] images ;
+	private Map<String,ImageView> images ;
 
 	public FactHandle handleOfCards;
 	 
@@ -48,7 +48,7 @@ public class Cards {
 	public Cards() {
 		super();
 		
-		images = new ImageView[4];
+		images = new HashMap<String, ImageView>();
 		
 		try {
 			FileInputStream	input = new FileInputStream("C:/Users/mario/Desktop/ready/straight.jpg");
@@ -63,41 +63,47 @@ public class Cards {
 			FileInputStream	input4 = new FileInputStream("C:/Users/mario/Desktop/ready/leftRight.jpg");
 			Image image4 = new Image(input4, 200, 100, false, true);
 			ImageView imageView4 = new ImageView(image4);
+			FileInputStream	input5 = new FileInputStream("C:/Users/mario/Desktop/ready/turnLeft.jpg");
+			Image image5 = new Image(input5, 200, 100, false, true);
+			ImageView imageView5 = new ImageView(image5);
+			FileInputStream	input6 = new FileInputStream("C:/Users/mario/Desktop/ready/straightLR.jpg");
+			Image image6 = new Image(input6, 200, 100, false, true);
+			ImageView imageView6 = new ImageView(image6);
 			
-			imageView.setId("straight");
-			imageView2.setId("cross");
-			imageView3.setId("turnRight");
-			imageView4.setId("leftRight");
 			
-			images[0] = imageView;
-			images[1] = imageView2;
-			images[2] = imageView3;
-			images[3] = imageView4;
+			
+			images.put("Straight",imageView);
+			images.put("Cross",imageView2);
+			images.put("Turn-right",imageView3);
+			images.put("Left/Right",imageView4);
+			images.put("Turn-left",imageView5);
+			images.put("StraightLR",imageView6);
 			
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
 		}
-		
+		 
 		pathCards = new HashMap<String, Integer>();
 		this.pathCards.put("Straight", 5);
 		this.pathCards.put("Left/Right", 5);
 		this.pathCards.put("Turn-left", 5);
 		this.pathCards.put("Turn-right", 5);
 		this.pathCards.put("Cross", 5);
+		this.pathCards.put("StraightLR", 5);
 
 		flashCards = new HashMap<String, Integer>();
-		this.flashCards.put("Ear Plugs", 3); //Skip two turns
+		this.flashCards.put("Ear Plugs", 3); //Skip one turn 
 		this.flashCards.put("Water", 4); // Draw two cards
 		this.flashCards.put("Lot of water", 2); //Draw three cards
 		//this.flashCards.put("Shots on fire", 2);
-		this.flashCards.put("Smashed bottle", 3); //The chosen player draw two cards 
+		this.flashCards.put("Smashed bottle", 3); //The chosen player discard two cards 
 		this.flashCards.put("Body surfing", 4); // Climb over the wall
 		//this.flashCards.put("Ballad", 5);
 
 		wallCards = new HashMap<String, Integer>();
-		this.wallCards.put("Head-bangers", 3);
-		this.wallCards.put("Hell's Angels", 3);
+		this.wallCards.put("Head-bangers", 3); // Destroyed discarding one card
+		this.wallCards.put("Hell's Angels", 3); 
 		//this.wallCards.put("Mosh Pit", 2);
 
 		this.totalCards = sumCards();
@@ -105,13 +111,15 @@ public class Cards {
 	}
 	
 	
-	public ImageView[] getImages() {
+	
+
+
+	public Map<String, ImageView> getImages() {
 		return images;
 	}
 
-	public void setImages(ImageView[] images) {
-		this.images = images;
-	}
+
+
 
 
 	public int sumCards() {

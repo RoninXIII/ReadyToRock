@@ -33,8 +33,8 @@ public class rockTest extends Application {
 	Cards deck = new Cards();
 	Player player1 = new Player(deck, "Blue",wm);
 	
-	Player player2 = new Player(deck, "White",wm);
-	Player player3 = new Player(deck, "Red",wm);
+	//Player player2 = new Player(deck, "White",wm);
+	Player player2 = new Player(deck, "Red",wm);
 
 	Board board = new Board();
 	
@@ -81,7 +81,7 @@ public class rockTest extends Application {
 
 		player1.handleOfPlayer = wm.insert(player1);
 		player2.handleOfPlayer = wm.insert(player2);
-		player3.handleOfPlayer = wm.insert(player3);
+		//player3.handleOfPlayer = wm.insert(player3);
 		
 		deck.handleOfCards = wm.insert(deck);
 		FactHandle handleOfBoard = wm.insert(board);

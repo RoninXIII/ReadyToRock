@@ -105,40 +105,7 @@ public class Board {
 
 	}
 
-	public void setPlayerAlert(Player player) {
 
-		player.getCell().setOnAction(event -> {
-
-			ButtonType[] cards = new ButtonType[player.getCards().size()];
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Alert");
-			alert.setHeaderText("Choose the card to play!");
-
-			int i = 0;
-			for (String card : player.getCards()) {
-				cards[i] = new ButtonType(card);
-
-				alert.getButtonTypes().add(cards[i]);
-				i++;
-			}
-
-			Optional<ButtonType> result = alert.showAndWait();
-			
-			if(result.get().getText() != "Ok" || result.get().getText() != "Annulla") {
-			
-			player.cardToPlay = result.get().getText();
-			//check if possible to play the card
-			//if possible remove the played card from player's hand
-			player.getCards().remove(player.cardToPlay);
-			player.workingMemory.update(player.handleOfPlayer, player);
-			player.workingMemory.fireAllRules();
-			}
-
-		});
-
-		// alert.setContentText("Choose your option.");
-
-	}
 
 	
 
@@ -149,7 +116,7 @@ public class Board {
 				if (player1.getCell().getId() == null) {
 					player1.setCell(initial);
 					player1.workingMemory.fireAllRules();
-					this.setPlayerAlert(player1);
+					player1.setPlayerAlert(null);
 
 				}
 			});
