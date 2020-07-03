@@ -201,7 +201,7 @@ public class Player {
 			alert.setTitle("Alert");
 			alert.setHeaderText("Choose the card to play!");
 			alert.setContentText(actions + " actions left");
-			if (playedCard != null) {
+			if (playedCard != null && playedCard != "Wall") {
 				this.path = playedCard;
 				ImageView image = deck.getImages().get(playedCard);
 				alert.setGraphic(image);
@@ -213,6 +213,7 @@ public class Player {
 				alert.getButtonTypes().add(cards[i]);
 				i++;
 			}
+
 			cards[getCards().size()] = new ButtonType("Finish your turn");
 			cards[getCards().size() + 1] = new ButtonType("Discard one card");
 			cards[getCards().size() + 2] = new ButtonType("Draw one card");
@@ -236,7 +237,7 @@ public class Player {
 					this.workingMemory.update(player2.handleOfPlayer, player2);
 
 				} else if (cardToPlay == "Finish your turn") {
-					player2.actions = 2;
+					
 					this.workingMemory.update(this.handleOfPlayer, this);
 					this.workingMemory.fireAllRules();
 					this.workingMemory.update(this.handleOfPlayer, this);
@@ -250,6 +251,14 @@ public class Player {
 
 	}
 
+	public boolean hasWall(Button cell) {
+
+		if (cell.getId() != null) {
+			return true;
+		} else
+			return false;
+	}
+
 	public void setCell(Button cell, Player player2) {
 		Board board = new Board();
 
@@ -257,6 +266,7 @@ public class Player {
 			this.cell.setOnAction(null);
 			this.cell.setId(null);
 			this.cell = cell;
+
 			this.cell.setId(getColor());
 			this.cell.setGraphic(this.getPlectrum());
 			this.setPlayerAlert(cardToPlay, player2);
@@ -294,7 +304,13 @@ public class Player {
 				return false;
 			else
 				return true;
+			
+		case "StraightLR":
 
+			if (path == "Straight" )
+				return false;
+			else
+				return true;
 		case "Turn-right":
 
 			if (path == "Turn-right")

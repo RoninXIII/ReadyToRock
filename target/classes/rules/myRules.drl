@@ -131,10 +131,12 @@ rule "Go forward"
     
     when
    $b: Board()
-   $p: Player(cardToPlay == "Straight" && getActions() > 0)
+   $p: Player(cardToPlay == "Straight" && getActions() > 0 && hasWall(getTopCell($b)) == false)
    $p2: Player(cardToPlay == "") 
     then
+
     $p.setCell($p.getTopCell($b),$p2);
+    $p.setPath($p.cardToPlay);
     $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
    // $p.getCards().remove($p.cardToPlay);
@@ -147,11 +149,12 @@ rule "Go forward-right"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Turn-right" && getActions() > 0)
+   $p: Player(cardToPlay == "Turn-right" && getActions() > 0 && hasWall(getTopCell($b)) == false)
     $p2: Player(cardToPlay == "") 
     then
+ 
       $p.setCell($p.getTopCell($b),$p2);
-      
+       $p.setPath($p.cardToPlay);
      $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -162,13 +165,16 @@ rule "Go forward-left"
     //include attributes such as "salience" here...
     when
        $b: Board()
-   $p: Player(cardToPlay == "Turn-left" && getActions() > 0)
+   $p: Player(cardToPlay == "Turn-left" && getActions() > 0 && hasWall(getTopCell($b)) == false) 
     $p2: Player(cardToPlay == "") 
     then
+ 
         $p.setCell($p.getTopCell($b),$p2);
+         $p.setPath($p.cardToPlay);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
+    
 
 end
 
@@ -176,10 +182,12 @@ rule "Go left"
     //include attributes such as "salience" here...
     when
     $b: Board()
-   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] > 3)
+   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] > 3 && hasWall(getLeftCell($b)) == false)
     $p2: Player(cardToPlay == "") 
     then
+
          $p.setCell($p.getLeftCell($b),$p2);
+          $p.setPath($p.cardToPlay);
      $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -190,10 +198,12 @@ rule "Go right"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] < 3 )
+   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] < 3 && hasWall(getRightCell($b)) == false )
     $p2: Player(cardToPlay == "") 
     then
+   
          $p.setCell($p.getRightCell($b),$p2);
+         $p.setPath($p.cardToPlay);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -204,10 +214,12 @@ rule "StraightLR"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "StraightLR" )
+   $p: Player(cardToPlay == "StraightLR" && hasWall(getTopCell($b)) == false )
     $p2: Player(cardToPlay == "") 
     then
+   
          $p.setCell($p.getTopCell($b),$p2);
+         $p.setPath($p.cardToPlay);
       $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -218,10 +230,12 @@ rule "Cross1"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] < 3   )
+   $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] < 3 && hasWall(getRightCell($b)) == false  )
     $p2: Player(cardToPlay == "") 
     then
+ 
          $p.setCell($p.getRightCell($b),$p2);
+        $p.setPath($p.cardToPlay);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -232,10 +246,12 @@ rule "Cross2"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] > 3   )
+   $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] > 3 && hasWall(getLeftCell($b)) == false   )
     $p2: Player(cardToPlay == "") 
     then
+   
          $p.setCell($p.getLeftCell($b),$p2);
+         $p.setPath($p.cardToPlay);
        $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -246,10 +262,12 @@ rule "Cross3"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] == 3   )
+   $p: Player(cardToPlay == "Cross" && getActions() > 0 && getPosition()[1] == 3 && hasWall(getTopCell($b)) == false   )
     $p2: Player(cardToPlay == "") 
     then
+   
          $p.setCell($p.getTopCell($b),$p2);
+          $p.setPath($p.cardToPlay);
       $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -313,6 +331,21 @@ rule "Smashed bottle"
 
 end
 
+rule "Put a wall"
+    //include attributes such as "salience" here...
+    when
+   $b: Board()
+   $d: Cards()
+   $p: Player(cardToPlay == "Wall" && getActions() > 0)
+   $p2: Player(cardToPlay == "")
+    then
+    ImageView image = $d.getImages().get($p.cardToPlay);
+    $p2.getTopCell($b).setGraphic(image);
+  	$p2.getTopCell($b).setId("Wall");
+    $p.cardToPlay = "";
+    $p.setActions($p.getActions()-1);
+
+end
 
 rule "Cpu turn"
    
@@ -320,11 +353,30 @@ rule "Cpu turn"
    $b: Board()
    $p: Player(color == "Red" && isTurn == true && getActions() > 0 && cardToPlay == "")
    
+   $d: Cards()
     then
+    $p.drawCard($d);
 	$p.cardToPlay = $p.findCardToPlay();
 	$p.cpuTurn();
 
 end
+
+rule "Cpu breaks a wall"
+   
+    when
+   $b: Board()
+   $p: Player(color == "Red" && isTurn == true && getActions() > 0 && cardToPlay != "" && cards.size() > 0)
+   $d: Cards()
+    then
+   
+	$p.getCards().remove(0);
+	$p.getTopCell($b).setId(null);
+	$p.getTopCell($b).setGraphic(null);
+	$p.cardToPlay="";
+	 $p.setActions($p.getActions()-1);
+end
+
+
 
 rule "Finish cpu turn"
     //include attributes such as "salience" here...

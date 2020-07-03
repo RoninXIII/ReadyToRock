@@ -68,6 +68,9 @@ public class Cards {
 			FileInputStream input6 = new FileInputStream("C:/Users/mario/Desktop/ready/straightLR.jpg");
 			Image image6 = new Image(input6, 200, 100, false, true);
 			ImageView imageView6 = new ImageView(image6);
+			FileInputStream input7 = new FileInputStream("C:/Users/mario/Desktop/ready/wall.jpg");
+			Image image7 = new Image(input7, 200, 100, false, true);
+			ImageView imageView7 = new ImageView(image7);
 
 			images.put("Straight", imageView);
 			images.put("Cross", imageView2);
@@ -75,7 +78,8 @@ public class Cards {
 			images.put("Left/Right", imageView4);
 			images.put("Turn-left", imageView5);
 			images.put("StraightLR", imageView6);
-
+			images.put("Wall", imageView7);
+			
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
@@ -95,12 +99,12 @@ public class Cards {
 		this.flashCards.put("Lot of water", 2); // Draw three cards
 		// this.flashCards.put("Shots on fire", 2);
 		this.flashCards.put("Smashed bottle", 3); // The chosen player discard two cards
-		this.flashCards.put("Body surfing", 4); // Climb over the wall
+		//this.flashCards.put("Body surfing", 4); // Climb over the wall
 		// this.flashCards.put("Ballad", 5);
 
 		wallCards = new HashMap<String, Integer>();
-		this.wallCards.put("Head-bangers", 3); // Destroyed discarding one card
-		this.wallCards.put("Hell's Angels", 3);
+		this.wallCards.put("Wall", 3); // Destroyed discarding one card
+		//this.wallCards.put("Hell's Angels", 3);
 		// this.wallCards.put("Mosh Pit", 2);
 
 		this.totalCards = sumCards();
