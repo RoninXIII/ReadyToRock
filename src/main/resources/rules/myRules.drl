@@ -149,7 +149,7 @@ rule "Go forward-right"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Turn-right" && getActions() > 0 && hasWall(getTopCell($b)) == false)
+   $p: Player(cardToPlay == "Turn-right" && getActions() > 0 && getPosition()[1] < 3 && getPosition()[1] != 3 && hasWall(getTopCell($b)) == false)
     $p2: Player(cardToPlay == "") 
     then
  
@@ -165,7 +165,7 @@ rule "Go forward-left"
     //include attributes such as "salience" here...
     when
        $b: Board()
-   $p: Player(cardToPlay == "Turn-left" && getActions() > 0 && hasWall(getTopCell($b)) == false) 
+   $p: Player(cardToPlay == "Turn-left" && getActions() > 0 && getPosition()[1] > 3 && getPosition()[1] != 3 && hasWall(getTopCell($b)) == false) 
     $p2: Player(cardToPlay == "") 
     then
  
@@ -182,7 +182,7 @@ rule "Go left"
     //include attributes such as "salience" here...
     when
     $b: Board()
-   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] > 3 && hasWall(getLeftCell($b)) == false)
+   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] > 3 && getPosition()[1]-1 != 3  && hasWall(getLeftCell($b)) == false)
     $p2: Player(cardToPlay == "") 
     then
 
@@ -198,7 +198,7 @@ rule "Go right"
     //include attributes such as "salience" here...
     when
    $b: Board()
-   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] < 3 && hasWall(getRightCell($b)) == false )
+   $p: Player(cardToPlay == "Left/Right" && getActions() > 0 && getPosition()[1] < 3 && getPosition()[1]+1 != 3 && hasWall(getRightCell($b)) == false )
     $p2: Player(cardToPlay == "") 
     then
    
@@ -323,8 +323,8 @@ rule "Smashed bottle"
    $p: Player(cardToPlay == "Smashed bottle" && getActions() > 0)
    $p2: Player(cardToPlay == "")
     then
-      $p2.getCards().remove(new Random().nextInt($p2.getCards().size()));
-      $p2.getCards().remove(new Random().nextInt($p2.getCards().size()));
+      $p2.getCards().remove(0);
+      $p2.getCards().remove(0);
       $p.getCards().remove($p.cardToPlay);
     $p.cardToPlay = "";
     $p.setActions($p.getActions()-1);
@@ -365,7 +365,7 @@ rule "Cpu breaks a wall"
    
     when
    $b: Board()
-   $p: Player(color == "Red" && isTurn == true && getActions() > 0 && cardToPlay != "" && cards.size() > 0)
+   $p: Player(color == "Red" && isTurn == true && getActions() > 0 && hasWall(getTopCell($b))   && cardToPlay != "" && cards.size() > 0)
    $d: Cards()
     then
    
@@ -374,6 +374,7 @@ rule "Cpu breaks a wall"
 	$p.getTopCell($b).setGraphic(null);
 	$p.cardToPlay="";
 	 $p.setActions($p.getActions()-1);
+	 $p.cpuTurn();
 end
 
 
@@ -389,6 +390,7 @@ rule "Finish cpu turn"
 	$p.isTurn = false;
 	$p2.isTurn = true;
 	$p2.setActions(2);
+	$p.setActions(2);
 	$p.cpuTurn();
 
 end

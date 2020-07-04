@@ -79,7 +79,7 @@ public class Cards {
 			images.put("Turn-left", imageView5);
 			images.put("StraightLR", imageView6);
 			images.put("Wall", imageView7);
-			
+
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
@@ -99,12 +99,12 @@ public class Cards {
 		this.flashCards.put("Lot of water", 2); // Draw three cards
 		// this.flashCards.put("Shots on fire", 2);
 		this.flashCards.put("Smashed bottle", 3); // The chosen player discard two cards
-		//this.flashCards.put("Body surfing", 4); // Climb over the wall
+		// this.flashCards.put("Body surfing", 4); // Climb over the wall
 		// this.flashCards.put("Ballad", 5);
 
 		wallCards = new HashMap<String, Integer>();
 		this.wallCards.put("Wall", 3); // Destroyed discarding one card
-		//this.wallCards.put("Hell's Angels", 3);
+		// this.wallCards.put("Hell's Angels", 3);
 		// this.wallCards.put("Mosh Pit", 2);
 
 		this.totalCards = sumCards();
@@ -172,6 +172,26 @@ public class Cards {
 
 		int rnd = new Random().nextInt(this.type.length);
 
+		switch (type[rnd]) {
+		case "Path":
+			if (pathCards.size() == 0) {
+				return getRandomType();
+			}
+			break;
+
+		case "Flash":
+			if (flashCards.size() == 0) {
+				return getRandomType();
+			}
+			break;
+
+		case "Wall":
+			if (wallCards.size() == 0) {
+				return getRandomType();
+			}
+			break;
+
+		}
 		return this.type[rnd];
 	}
 

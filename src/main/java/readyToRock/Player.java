@@ -230,7 +230,7 @@ public class Player {
 				if ((isValid() == true && actions > 0)) {
 					// check if possible to play the card
 					// if possible remove the played card from player's hand
-
+				
 					this.workingMemory.update(this.handleOfPlayer, this);
 					this.workingMemory.fireAllRules();
 					this.workingMemory.update(this.handleOfPlayer, this);
@@ -300,7 +300,7 @@ public class Player {
 		switch (this.cardToPlay) {
 		case "Straight":
 
-			if (path == "Left/Right")
+			if (path == "Left/Right" || path == "StraightLR")
 				return false;
 			else
 				return true;
@@ -313,7 +313,7 @@ public class Player {
 				return true;
 		case "Turn-right":
 
-			if (path == "Turn-right")
+			if (path == "Turn-right" || path == "Left/Right")
 				return false;
 			else
 				return true;
@@ -327,7 +327,7 @@ public class Player {
 
 		case "Turn-left":
 
-			if (path == "Turn-left")
+			if (path == "Turn-left" || path == "Left/Right")
 				return false;
 			else
 				return true;
