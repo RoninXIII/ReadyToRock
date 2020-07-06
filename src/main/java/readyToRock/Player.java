@@ -89,14 +89,15 @@ public class Player {
 
 	}
 
-	public boolean hasWon() {
+	public void hasWon() {
 
-		if (this.distance == 0) {
-
-			return true;
-
-		} else
-			return false;
+		System.out.println("Congratulations, you reached the stage!");
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Alert");
+		alert.setHeaderText("Congratulations, you reached the stage!");
+		Optional<ButtonType> result = alert.showAndWait();
+		
 
 	}
 
@@ -161,9 +162,9 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [color=" + color + ", cards=" + cards + ", path=" + path + ", actions=" + actions +
-				", distance=" + distance + ", isTurn=" + isTurn + ", cardToPlay=" + cardToPlay + ", oldCards="
-				+ oldCards + ", position=" +  GridPane.getRowIndex(cell)+" "+ GridPane.getColumnIndex(cell) + "]";
+		return "Player [color=" + color + ", cards=" + cards + ", path=" + path + ", actions=" + actions + ", distance="
+				+ distance + ", isTurn=" + isTurn + ", cardToPlay=" + cardToPlay + ", oldCards=" + oldCards
+				+ ", position=" + GridPane.getRowIndex(cell) + " " + GridPane.getColumnIndex(cell) + "]";
 	}
 
 	public boolean checkPosition(int row, int column) {
@@ -227,19 +228,18 @@ public class Player {
 			if (result.get() != ButtonType.OK && result.get() != ButtonType.CANCEL) {
 
 				this.cardToPlay = result.get().getText();
-
-				if ((isValid() == true && actions > 0)) {
+				this.workingMemory.update(this.handleOfPlayer, this);
+				if ( actions > 0) {
 					// check if possible to play the card
 					// if possible remove the played card from player's hand
-				
-					this.workingMemory.update(this.handleOfPlayer, this);
+		
 					this.workingMemory.fireAllRules();
 					this.workingMemory.update(this.handleOfPlayer, this);
 					this.workingMemory.update(player2.handleOfPlayer, player2);
 
 				} else if (cardToPlay == "Finish your turn") {
-					
-					this.workingMemory.update(this.handleOfPlayer, this);
+
+				
 					this.workingMemory.fireAllRules();
 					this.workingMemory.update(this.handleOfPlayer, this);
 					this.workingMemory.update(player2.handleOfPlayer, player2);
@@ -305,10 +305,10 @@ public class Player {
 				return false;
 			else
 				return true;
-			
+
 		case "StraightLR":
 
-			if (path == "Straight" )
+			if (path == "Straight")
 				return false;
 			else
 				return true;
@@ -362,7 +362,6 @@ public class Player {
 			if (cards.contains(arr3[i]) && oldCards.contains(arr3[i]) == false)
 				return (String) arr3[i];
 		}
-		
 
 		return "";
 
