@@ -38,6 +38,7 @@ public class Player {
 	private int distance = 5;
 	public boolean isTurn = true;
 	public String cardToPlay = "";
+	private ArrayList<String> oldCards = new ArrayList<String>();
 	private ImageView plectrum = new ImageView();
 	public FactHandle handleOfPlayer;
 	public KieSession workingMemory;
@@ -160,9 +161,9 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [color=" + color + ", cards=" + cards + ", actions=" + actions + ", distance=" + distance
-				+ ", isTurn=" + isTurn + ", cardToPlay=" + cardToPlay + ", position= [" + GridPane.getRowIndex(cell)
-				+ " " + GridPane.getColumnIndex(cell) + "] ]";
+		return "Player [color=" + color + ", cards=" + cards + ", path=" + path + ", actions=" + actions +
+				", distance=" + distance + ", isTurn=" + isTurn + ", cardToPlay=" + cardToPlay + ", oldCards="
+				+ oldCards + ", position=" +  GridPane.getRowIndex(cell)+" "+ GridPane.getColumnIndex(cell) + "]";
 	}
 
 	public boolean checkPosition(int row, int column) {
@@ -300,7 +301,7 @@ public class Player {
 		switch (this.cardToPlay) {
 		case "Straight":
 
-			if (path == "Left/Right" || path == "StraightLR")
+			if (path == "Left/Right" || path == "Turn-right" || path == "Turn-left")
 				return false;
 			else
 				return true;
@@ -313,7 +314,7 @@ public class Player {
 				return true;
 		case "Turn-right":
 
-			if (path == "Turn-right" || path == "Left/Right")
+			if (path == "Turn-right" || path == "Left/Right" || path == "Turn-left")
 				return false;
 			else
 				return true;
@@ -327,7 +328,7 @@ public class Player {
 
 		case "Turn-left":
 
-			if (path == "Turn-left" || path == "Left/Right")
+			if (path == "Turn-left" || path == "Left/Right" || path == "Turn-right")
 				return false;
 			else
 				return true;
@@ -346,24 +347,33 @@ public class Player {
 
 		for (int i = 0; i < arr.length; i++) {
 
-			if (cards.contains(arr[i]))
+			if (cards.contains(arr[i]) && oldCards.contains(arr[i]) == false)
 				return (String) arr[i];
 		}
 
 		for (int i = 0; i < arr2.length; i++) {
 
-			if (cards.contains(arr2[i]))
+			if (cards.contains(arr2[i]) && oldCards.contains(arr2[i]) == false)
 				return (String) arr2[i];
 		}
 
 		for (int i = 0; i < arr3.length; i++) {
 
-			if (cards.contains(arr3[i]))
+			if (cards.contains(arr3[i]) && oldCards.contains(arr3[i]) == false)
 				return (String) arr3[i];
 		}
+		
 
 		return "";
 
+	}
+
+	public ArrayList<String> getOldCards() {
+		return oldCards;
+	}
+
+	public void setOldCards(ArrayList<String> oldCards) {
+		this.oldCards = oldCards;
 	}
 
 	public void cpuTurn() {

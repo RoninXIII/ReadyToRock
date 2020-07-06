@@ -98,7 +98,7 @@ public class Cards {
 		this.flashCards.put("Water", 4); // Draw two cards
 		this.flashCards.put("Lot of water", 2); // Draw three cards
 		// this.flashCards.put("Shots on fire", 2);
-		this.flashCards.put("Smashed bottle", 3); // The chosen player discard two cards
+		this.flashCards.put("Smashed bottle", 3); // The chosen player discards two cards
 		// this.flashCards.put("Body surfing", 4); // Climb over the wall
 		// this.flashCards.put("Ballad", 5);
 
